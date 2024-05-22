@@ -13,9 +13,9 @@ O projeto é composto pelas seguintes classes:
 - `Jogo`: Representa um jogo de futebol, com atributos como as equipes mandante e visitante, data do jogo, estádio, cidade, placar do mandante e placar do visitante. A classe também possui métodos para gerar o resultado do jogo, gerar lesões, gerar cartões e permitir treinamento.
 
 # Temos também 3 enums pra representar estados e posicões
-- `posição`: Representa as 11 posições dos jogadores em um campo de futebol
-- `supenção`: Representa o estado de um jogador (suspenso ou disponível pra jogo)
-- `Treino` : Representa o estado do jogador (Treinou antes do jogo ou não)
+- `Posicao`: Representa as 11 posições dos jogadores em um campo de futebol
+- `Supenso`: Representa o estado de um jogador (suspenso ou disponível pra jogo)
+- `Treinou` : Representa o estado do jogador (Treinou antes do jogo ou não)
 
 ## Como usar
 

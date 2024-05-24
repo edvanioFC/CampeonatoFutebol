@@ -93,7 +93,6 @@ public class Equipa {
 }
 */
 
-
 package Campeonato;
 
 import java.util.ArrayList;
@@ -108,25 +107,28 @@ public class Equipa {
     private String nome;
     private String apelido;
     private int fundacao;
-    private ArrayList<Jogador> plantel;
+    private final ArrayList<Jogador> plantel;
     private ArrayList<Jogador> relacionados;
+    private final ArrayList<Jogador> jogadoresSuspensos;
 
-    // Construtor padrão
+
     public Equipa() {
         this.plantel = new ArrayList<>();
         this.relacionados = new ArrayList<>();
+        this.jogadoresSuspensos = new ArrayList<>();
     }
 
-    // Construtor com todos os atributos
+
     public Equipa(String nome, String apelido, int fundacao, ArrayList<Jogador> plantel) {
         this.nome = nome;
         this.apelido = apelido;
         this.fundacao = fundacao;
         this.plantel = plantel;
         this.relacionados = new ArrayList<>();
+        this.jogadoresSuspensos = new ArrayList<>();
     }
 
-    // Método para relacionar jogadores: 11 titulares e 7 reservas
+
     public List<Jogador> relacionarJogadores() {
         List<Jogador> titulares = new ArrayList<>();
         List<Jogador> reservas = new ArrayList<>();
@@ -166,7 +168,6 @@ public class Equipa {
         return relacionados;
     }
 
-    // Método para relacionar os 11 melhores jogadores
     public List<Jogador> relacionarMelhoresJogadores() {
         return plantel.stream()
                 .filter(Jogador::verificaCondicaoJogo)
@@ -175,18 +176,22 @@ public class Equipa {
                 .collect(Collectors.toList());
     }
 
+    public void adicionarJogador(Jogador jogador) {
+        plantel.add(jogador);
+    }
+
     public void imprimirEscalacao() {
         List<Jogador> titulares = relacionados.subList(0, 11);
-        List<Jogador> reservas = relacionados.subList(11, 18);
+        List<Jogador> reservas = relacionados.subList(11,18);
 
-        System.out.println("Escalação da equipe " + nome + " " + apelido);
+        System.out.println(STR."Escalação da equipe \{nome} \{apelido}");
         System.out.println("Titulares:");
         titulares.forEach(jogador ->
-                System.out.println(jogador.getPosicao() + ": " + jogador.getNumero() + " - " + jogador.getNome() + " (" + jogador.getApelido() + ") - Qualidade: " + jogador.getQualidade())
+                System.out.println(STR."\{jogador.getPosicao()}: \{jogador.getNumero()} - \{jogador.getNome()} (\{jogador.getApelido()}) - Qualidade: \{jogador.getQualidade()}")
         );
         System.out.println("Reservas:");
         reservas.forEach(jogador ->
-                System.out.println(jogador.getPosicao() + ": " + jogador.getNumero() + " - " + jogador.getNome() + " (" + jogador.getApelido() + ") - Qualidade: " + jogador.getQualidade())
+                System.out.println(STR."\{jogador.getPosicao()}: \{jogador.getNumero()} - \{jogador.getNome()} (\{jogador.getApelido()}) - Qualidade: \{jogador.getQualidade()}")
         );
     }
 
@@ -219,7 +224,15 @@ public class Equipa {
         return plantel;
     }
 
-    public void setPlantel(ArrayList<Jogador> plantel) {
-        this.plantel = plantel;
+    public ArrayList<Jogador> getJogadoresSuspensos() {
+        return jogadoresSuspensos;
+    }
+
+    public void setJogadoresSuspensos(Jogador jogador) {
+        this.jogadoresSuspensos.add(jogador);
+    }
+
+    public ArrayList<Jogador> getRelacionados() {
+        return relacionados;
     }
 }

@@ -1,6 +1,8 @@
 package Campeonato;
 import java.time.LocalDate;
 import java.util.Random;
+
+import Enums.Cartao;
 import Enums.Posicao;
 import Enums.Suspenso;
 import Enums.Treinou;
@@ -14,10 +16,11 @@ public class Jogador {
     private int numero;
     private Posicao posicao;
     private int qualidade;
-    private int cartoes;
+    private int cartoesAmarelos;
+    private int cartoesVermelhos;
     private Suspenso suspenso;
     private Treinou treinou;
-    private int cartoesAmarelos;
+
 
 
     public Jogador(int id, String nome, String apelido, LocalDate dataNascimento, int numero, Posicao posicao, int qualidade) {
@@ -28,65 +31,63 @@ public class Jogador {
         this.numero = numero;
         this.posicao = posicao;
         this.qualidade = qualidade;
-        this.cartoes = 0;
         this.cartoesAmarelos = 0;
+        this.cartoesVermelhos = 0;
         this.suspenso = Suspenso.NAO;
         this.treinou = Treinou.NAO;
     }
 
     public void cadastrar() {
-        System.out.println("Jogador cadastrado: " + nome + " - " + apelido);
+        System.out.println(STR."Jogador cadastrado: \{nome} - \{apelido}");
     }
 
     public void exibirJogador() {
-        System.out.println("Jogador: " + nome + " - " + apelido);
-        System.out.println("Data de Nascimento: " + dataNascimento);
-        System.out.println("Número: " + numero);
-        System.out.println("Posição: " + posicao.getDescricao());
-        System.out.println("Qualidade: " + qualidade);
-        System.out.println("Cartões: " + cartoes);
-        System.out.println("Cartões Amarelos: " + cartoesAmarelos);
-        System.out.println("Suspenso: " + suspenso.getDescricao());
-        System.out.println("Treinou: " + treinou.getDescricao());
+        System.out.println(STR."Jogador: \{nome} - \{apelido}");
+        System.out.println(STR."Data de Nascimento: \{dataNascimento}");
+        System.out.println(STR."Número: \{numero}");
+        System.out.println(STR."Posição: \{posicao.getDescricao()}");
+        System.out.println(STR."Qualidade: \{qualidade}");
+        System.out.println(STR."Cartões Amarelos: \{cartoesAmarelos}");
+        System.out.println(STR."Cartões VermelHos: \{cartoesVermelhos}");
+        System.out.println(STR."Suspenso: \{suspenso.getDescricao()}");
+        System.out.println(STR."Treinou: \{treinou.getDescricao()}");
     }
     public boolean verificaCondicaoJogo() {
         return suspenso == Suspenso.NAO;
     }
 
-    public void aplicarCartao(int quantidade) {
-        cartoes += quantidade;
-        cartoesAmarelos += quantidade;
-        if(cartoesAmarelos >= 2) suspenso = Suspenso.SIM;
+    public void aplicarCartao(Cartao cartao, int quantidade) {
 
-        if (cartoes >= 3) suspenso = Suspenso.SIM;
-
-        if (cartoes >= 6) cartoes = 6;
+        switch (cartao){
+            case AMARELO:
+                cartoesAmarelos += quantidade;
+                if (cartoesAmarelos >= 2) {
+                    suspenso = Suspenso.SIM;
+                }
+                if(cartoesAmarelos >= 6) {
+                    cartoesAmarelos = 6;
+                }
+                break;
+            case VERMELHO:
+                cartoesVermelhos += quantidade;
+                if (cartoesVermelhos >= 1) {
+                    suspenso = Suspenso.SIM;
+                }
+                break;
+            default:
+                break;
+        }
 
     }
 
     public void cumprirSuspencao() {
-        cartoes = 0;
+        cartoesVermelhos = 0;
         cartoesAmarelos = 0;
         suspenso = Suspenso.NAO;
     }
 
     public void sofrerLesao() {
-        Random random = new Random();
-        int probabilidade = random.nextInt(100);
-        int qualidadeDecrementada = 0;
-
-        if (probabilidade < 5) {
-            qualidadeDecrementada = (int) (0.15 * qualidade);
-        } else if (probabilidade < 15) {
-            qualidadeDecrementada = (int) (0.10 * qualidade);
-        } else if (probabilidade < 30) {
-            qualidadeDecrementada = (int) (0.05 * qualidade);
-        } else if (probabilidade < 70) {
-            qualidadeDecrementada = 2;
-        } else {
-            qualidadeDecrementada = 1;
-        }
-
+        int qualidadeDecrementada = calcularQualidade();
         qualidade -= qualidadeDecrementada;
         if (qualidade < 0) {
             qualidade = 0;
@@ -95,23 +96,7 @@ public class Jogador {
 
     public void executarTreinamento() {
         if (treinou == Treinou.NAO) {
-            Random random = new Random();
-            int probabilidade = random.nextInt(100);
-            int qualidadeIncrementada = 0;
-
-            if (probabilidade < 5) {
-                qualidadeIncrementada = 5;
-            } else if (probabilidade < 15) {
-                qualidadeIncrementada = 4;
-            } else if (probabilidade < 30) {
-                qualidadeIncrementada = 3;
-            } else if (probabilidade < 70) {
-                qualidadeIncrementada = 2;
-            } else {
-                qualidadeIncrementada = 1;
-            }
-
-            qualidade += qualidadeIncrementada;
+            qualidade += calcularQualidade();
             if (qualidade > 100) {
                 qualidade = 100;
             }
@@ -119,6 +104,26 @@ public class Jogador {
         } else {
             System.out.println("Este jogador já treinou antes da partida.");
         }
+    }
+
+    private int calcularQualidade() {
+        Random random = new Random();
+        int probabilidade = random.nextInt(100);
+        int valor;
+
+        if (probabilidade < 5) {
+            valor = (int) (0.15 * qualidade);
+        } else if (probabilidade < 15) {
+            valor = (int) (0.10 * qualidade);
+        } else if (probabilidade < 30) {
+            valor = (int) (0.05 * qualidade);
+        } else if (probabilidade < 70) {
+            valor = 2;
+        } else {
+            valor = 1;
+        }
+
+        return valor;
     }
 
     public int getId() {
@@ -149,10 +154,13 @@ public class Jogador {
         return qualidade;
     }
 
-    public int getCartoes() {
-        return cartoes;
+    public int getCartoesAmarelos() {
+        return cartoesAmarelos;
     }
 
+    public int getCartoesVermelhos() {
+        return cartoesVermelhos;
+    }
 
     public Suspenso getSuspenso() {
         return suspenso;

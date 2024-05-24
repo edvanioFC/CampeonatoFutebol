@@ -1,15 +1,11 @@
 package Campeonato;
-import Enums.Suspenso;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.IntStream;
 
+import Enums.*;
 import java.time.LocalDate;
+import java.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
-import Enums.Suspenso;
 
 public class Jogo {
     private Equipa mandante;
@@ -19,7 +15,12 @@ public class Jogo {
     private String cidade;
     private int placarMandante;
     private int placarVisitante;
-    private List<String> eventos;
+    private final List<String> eventos;
+
+
+    public Jogo(){
+        this.eventos = new ArrayList<>();
+    }
 
     public Jogo(Equipa mandante, Equipa visitante, LocalDate dataDoJogo, String estadio, String cidade) {
         this.mandante = mandante;
@@ -35,57 +36,136 @@ public class Jogo {
     public void gerarResultado() {
         int totalQualidadeMandante = calcularTotalQualidadeJogadores(mandante.relacionarMelhoresJogadores());
         int totalQualidadeVisitante = calcularTotalQualidadeJogadores(visitante.relacionarMelhoresJogadores());
-
         Random random = new Random();
-        int probabilidadeMandante = totalQualidadeMandante + random.nextInt(30);
-        int probabilidadeVisitante = totalQualidadeVisitante + random.nextInt(30);
 
-        placarMandante = random.nextInt(5);
-        placarVisitante = random.nextInt(5);
+        int probabilidade = random.nextInt(100);
 
-        while (placarMandante == placarVisitante) {
-            placarMandante = random.nextInt(5);
-            placarVisitante = random.nextInt(5);
+        int resultado;
+
+        if (totalQualidadeMandante == totalQualidadeVisitante) {
+            resultado = 0;
+        } else if (totalQualidadeMandante < totalQualidadeVisitante) {
+            resultado = 1;
+        } else {
+            resultado = 2;
         }
 
-        if (probabilidadeMandante > probabilidadeVisitante) {
-            placarMandante++;
-        } else if (probabilidadeVisitante > probabilidadeMandante) {
-            placarVisitante++;
+        if (eventos.contains("Cartao vermelho para mandante")) {
+            resultado = 2;
+        } else if (eventos.contains("Cartao vermelho para visitante")) {
+            resultado = 1;
+        }
+
+        switch (resultado) {
+            case 0:
+                if (probabilidade < 20) {
+                    placarMandante++;
+                    eventos.add("Gol do mandante!");
+                } else if (probabilidade < 40) {
+                    placarVisitante++;
+                    eventos.add("Gol do visitante!");
+                }
+                break;
+            case 1:
+                if (probabilidade < 50) {
+                    placarVisitante++;
+                    eventos.add("Gol do visitante!");
+                } else if (probabilidade < 80) {
+                    placarMandante++;
+                    eventos.add("Gol do mandante!");
+                }
+                break;
+            case 2:
+                if (probabilidade < 50) {
+                    placarMandante++;
+                    eventos.add("Gol do mandante!");
+                } else if (probabilidade < 80) {
+                    placarVisitante++;
+                    eventos.add("Gol do visitante!");
+                }
+                break;
         }
     }
+
+    public void gerarCartoes() {
+        Random random = new Random();
+        int cartoesMandante = random.nextInt(11);
+        int cartoesVisitante = random.nextInt(11);
+
+        List<Jogador> mandanteTitulares = mandante.getRelacionados();
+        List<Jogador> visitanteTitulares = visitante.getRelacionados();
+
+        aplicarCartoes(mandanteTitulares, cartoesMandante, mandante);
+        aplicarCartoes(visitanteTitulares, cartoesVisitante, visitante);
+    }
+
+    public void aplicarCartoes(List<Jogador> jogadores, int numeroDeCartoes, Equipa equipa) {
+        Random random = new Random();
+
+        IntStream.range(0, numeroDeCartoes).forEach(_ -> {
+            int index = random.nextInt(10);
+            Jogador jogador = jogadores.get(index);
+            jogador.aplicarCartao(Cartao.AMARELO,1);
+            eventos.add(STR."Cartao\{Cartao.AMARELO.getDescricao()} para o \{jogador.getNome()} do \{equipa.getNome()}.");
+            if (jogador.getSuspenso() == Suspenso.SIM) {
+                eventos.add(STR."Cartao vermelho para \{jogador.getNome()} do \{equipa.getNome()}.");
+                List<Jogador> titulares = equipa.getRelacionados().subList(0, 11);
+                if(titulares.contains(jogador)){
+                    titulares.remove(jogador);
+                    equipa.setJogadoresSuspensos(jogador);
+                }
+            }
+        });
+    }
+
 
     private int calcularTotalQualidadeJogadores(List<Jogador> jogadores) {
         return jogadores.stream().mapToInt(Jogador::getQualidade).sum();
     }
 
-    public void registrarEventos() {
+    public void gerarLesao(){
+        List<Jogador> mandanteEmCampo = mandante.relacionarJogadores();
+        List<Jogador> visitantesEmCampo = visitante.relacionarJogadores();
         Random random = new Random();
-        mandante.relacionarMelhoresJogadores().forEach(jogador -> {
-            if (random.nextInt(100) < 5) {
-                eventos.add(jogador.getNome() + " sofreu uma lesão.");
-                jogador.sofrerLesao();
-            }
-            if (random.nextInt(100) < 5) {
-                eventos.add(jogador.getNome() + " recebeu um cartão amarelo.");
-                jogador.aplicarCartao(1);
-            }
+
+        int lesaoMandante = random.nextInt(3);
+        int lesaoVisitante = random.nextInt(3);
+
+        IntStream.range(0, lesaoMandante).forEach(_ -> {
+            int index = random.nextInt(mandanteEmCampo.size());
+            Jogador jogador = mandanteEmCampo.get(index);
+            jogador.sofrerLesao();
+            eventos.add(STR."Lesão do \{jogador.getNome()} do mandante!");
+            substituirJogador(jogador, mandante.relacionarJogadores().get(11), mandante);
+    });
+
+        IntStream.range(0, lesaoVisitante).forEach(_ -> {
+            int index = random.nextInt(visitantesEmCampo.size());
+            Jogador jogador = visitantesEmCampo.get(index);
+            jogador.sofrerLesao();
+            eventos.add(STR."Lesão do \{jogador.getNome()} do visitante!");
+            substituirJogador(jogador, visitante.relacionarJogadores().get(11), visitante);
         });
-        visitante.relacionarMelhoresJogadores().forEach(jogador -> {
-            if (random.nextInt(100) < 5) {
-                eventos.add(jogador.getNome() + " sofreu uma lesão.");
-                jogador.sofrerLesao();
-            }
-            if (random.nextInt(100) < 5) {
-                eventos.add(jogador.getNome() + " recebeu um cartão amarelo.");
-                jogador.aplicarCartao(1);
-            }
-        });
+
+    }
+
+    public void substituirJogador(Jogador jogadorSaindo, Jogador jogadorEntrando, Equipa equipe) {
+        List<Jogador> titulares = equipe.relacionarJogadores().subList(0, 11);
+        List<Jogador> reservas = equipe.relacionarJogadores().subList(11, equipe.relacionarJogadores().size());
+
+        if (titulares.contains(jogadorSaindo) && reservas.contains(jogadorEntrando)) {
+            titulares.remove(jogadorSaindo);
+            reservas.remove(jogadorEntrando);
+            titulares.add(jogadorEntrando);
+            reservas.add(jogadorSaindo);
+
+            eventos.add(STR."Substituição: Sai \{jogadorSaindo.getNome()} e entra \{jogadorEntrando.getNome()} no \{equipe.getNome()}");
+        }
     }
 
     public void exibirResultado() {
         System.out.println("Resultado do Jogo:");
-        System.out.println(mandante.getNome() + " " + placarMandante + " x " + placarVisitante + " " + visitante.getNome());
+        System.out.println(STR."\{mandante.getNome()} \{placarMandante} x \{placarVisitante} \{visitante.getNome()}");
         eventos.forEach(System.out::println);
     }
 
@@ -138,24 +218,11 @@ public class Jogo {
         return placarMandante;
     }
 
-    public void setPlacarMandante(int placarMandante) {
-        this.placarMandante = placarMandante;
-    }
-
     public int getPlacarVisitante() {
         return placarVisitante;
     }
 
-    public void setPlacarVisitante(int placarVisitante) {
-        this.placarVisitante = placarVisitante;
-    }
-
-
-
 }
-
-
-
 
 /*
 public class Jogo {

@@ -17,6 +17,11 @@ O projeto é composto pelas seguintes classes:
 - `Supenso`: Representa o estado de um jogador (suspenso ou disponível pra jogo)
 - `Treinou` : Representa o estado do jogador (Treinou antes do jogo ou não)
 
+# E algumas classes utils
+- `DataUtil`: Gerador de data
+- `GeradorNome`: Gera nome e apelidos aleatórios
+- `VerificaInput`: Valida o tipo de dados
+
 ## Como usar
 
 Para usar este projeto, você deve instanciar as classes `Jogador`, `Equipa` e `Jogo` e usar seus métodos para simular a gestão de um campeonato de futebol.

@@ -103,6 +103,8 @@ import java.util.stream.Stream;
 
 import Enums.Posicao;
 
+import static java.lang.System.*;
+
 public class Equipa {
     private String nome;
     private String apelido;
@@ -180,18 +182,25 @@ public class Equipa {
         plantel.add(jogador);
     }
 
+    public void imprimirPlantel(){
+        out.println("Plantel da equipe " + nome + "- ("+apelido+")");
+        plantel.forEach(jogador ->
+                out.println(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " (" + jogador.getApelido() + ") - " + jogador.getDataNascimento() + " - Condição: " + jogador.condicao(jogador) )
+        );
+    }
+
     public void imprimirEscalacao() {
         List<Jogador> titulares = relacionados.subList(0, 11);
         List<Jogador> reservas = relacionados.subList(11,18);
 
-        System.out.println(STR."Escalação da equipe \{nome} \{apelido}");
-        System.out.println("Titulares:");
+        out.println("Escalação da equipe " + nome + "-("+apelido+")");
+        out.println("Titulares:");
         titulares.forEach(jogador ->
-                System.out.println(STR."\{jogador.getPosicao()}: \{jogador.getNumero()} - \{jogador.getNome()} (\{jogador.getApelido()}) - Qualidade: \{jogador.getQualidade()}")
+                out.println(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " " + jogador.getApelido() + "- Qualidade: " + jogador.getQualidade())
         );
-        System.out.println("Reservas:");
+        out.println("Reservas:");
         reservas.forEach(jogador ->
-                System.out.println(STR."\{jogador.getPosicao()}: \{jogador.getNumero()} - \{jogador.getNome()} (\{jogador.getApelido()}) - Qualidade: \{jogador.getQualidade()}")
+                out.println(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " " + jogador.getApelido() + " -Qualidade: " + jogador.getQualidade())
         );
     }
 

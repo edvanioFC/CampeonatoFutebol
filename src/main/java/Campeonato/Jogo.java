@@ -103,12 +103,12 @@ public class Jogo {
         Random random = new Random();
 
         IntStream.range(0, numeroDeCartoes).forEach(_ -> {
-            int index = random.nextInt(10);
+            int index = random.nextInt(11);
             Jogador jogador = jogadores.get(index);
             jogador.aplicarCartao(Cartao.AMARELO,1);
-            eventos.add(STR."Cartao\{Cartao.AMARELO.getDescricao()} para o \{jogador.getNome()} do \{equipa.getNome()}.");
+            eventos.add("Cartao" + Cartao.AMARELO.getDescricao() + " para o " + jogador.getNome() + "do " + equipa.getNome());
             if (jogador.getSuspenso() == Suspenso.SIM) {
-                eventos.add(STR."Cartao vermelho para \{jogador.getNome()} do \{equipa.getNome()}.");
+                eventos.add("Cartao vermelho para " + jogador.getNome() + "do " +equipa.getNome());
                 List<Jogador> titulares = equipa.getRelacionados().subList(0, 11);
                 if(titulares.contains(jogador)){
                     titulares.remove(jogador);
@@ -135,7 +135,7 @@ public class Jogo {
             int index = random.nextInt(mandanteEmCampo.size());
             Jogador jogador = mandanteEmCampo.get(index);
             jogador.sofrerLesao();
-            eventos.add(STR."Lesão do \{jogador.getNome()} do mandante!");
+            eventos.add("Lesão do " + jogador.getNome() + "do mandante!");
             substituirJogador(jogador, mandante.relacionarJogadores().get(11), mandante);
     });
 
@@ -143,7 +143,7 @@ public class Jogo {
             int index = random.nextInt(visitantesEmCampo.size());
             Jogador jogador = visitantesEmCampo.get(index);
             jogador.sofrerLesao();
-            eventos.add(STR."Lesão do \{jogador.getNome()} do visitante!");
+            eventos.add("Lesão do " + jogador.getNome()  + "do visitante!");
             substituirJogador(jogador, visitante.relacionarJogadores().get(11), visitante);
         });
 
@@ -159,14 +159,14 @@ public class Jogo {
             titulares.add(jogadorEntrando);
             reservas.add(jogadorSaindo);
 
-            eventos.add(STR."Substituição: Sai \{jogadorSaindo.getNome()} e entra \{jogadorEntrando.getNome()} no \{equipe.getNome()}");
+            eventos.add("Substituição: Sai " + jogadorSaindo.getNome() + " e entra"+ jogadorEntrando.getNome() + " no " + equipe.getNome());
         }
     }
 
     public void exibirResultado() {
         System.out.println("Resultado do Jogo:");
-        System.out.println(STR."\{mandante.getNome()} \{placarMandante} x \{placarVisitante} \{visitante.getNome()}");
         eventos.forEach(System.out::println);
+        System.out.println(mandante.getNome() + " " + placarMandante + "X" + placarVisitante + " " +  visitante.getNome());
     }
 
     public void permitirTreinamento() {
@@ -220,6 +220,20 @@ public class Jogo {
 
     public int getPlacarVisitante() {
         return placarVisitante;
+    }
+
+    @Override
+    public String toString(){
+        return "Jogo|" +
+                "mandante=" + mandante +'\''+
+                ", visitante=" + visitante +'\'' +
+                ", dataDoJogo=" + dataDoJogo +'\'' +
+                ", estadio='" + estadio +'\''+
+                ", cidade='" + cidade + '\'' +
+                ", placarMandante=" + placarMandante +'\'' +
+                ", placarVisitante=" + placarVisitante  +'\''+
+                ", eventos=" + eventos +'\''+
+                '|';
     }
 
 }

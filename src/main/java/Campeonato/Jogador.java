@@ -126,6 +126,11 @@ public class Jogador {
         return valor;
     }
 
+    public String condicao(Jogador jogador){
+        if(jogador.getSuspenso() == Suspenso.SIM) return "Suspenso";
+        return "Tá Pra Jogo";
+    }
+
     public int getId() {
         return id;
     }

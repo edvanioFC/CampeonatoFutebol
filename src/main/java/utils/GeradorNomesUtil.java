@@ -1,24 +1,48 @@
 package utils;
+
 import java.util.Locale;
 import com.github.javafaker.Faker;
 import java.util.Random;
 
-public class GeradorNomes {
+/**
+ * Classe utilitária para gerar nomes e apelidos.
+ */
+public class GeradorNomesUtil {
 
-        private static final Faker FAKER = new Faker(new Locale("pt-BR"));
-        private static final Random RANDOM = new Random();
+    /**
+     * Instância do Faker configurada para o idioma pt-BR.
+     */
+    private static final Faker FAKER = new Faker(new Locale("pt-BR"));
 
-        public GeradorNomes(){}
+    /**
+     * Instância do Random para geração de números aleatórios.
+     */
+    private static final Random RANDOM = new Random();
 
+    /**
+     * Construtor padrão.
+     */
+    public GeradorNomesUtil(){}
 
-        public static String gerarNome() {
-            return FAKER.name().firstName();
-        }
+    /**
+     * Gera um nome aleatório.
+     *
+     * @return Um nome aleatório como uma String.
+     */
+    public static String gerarNome() {
+        return FAKER.name().firstName();
+    }
 
-        public static String gerarApelido() {
-            char letter1 = (char) ('A' + RANDOM.nextInt(26));
-            char letter2 = (char) ('A' + RANDOM.nextInt(26));
-            return "" + letter1 + letter2;
-        }
+    /**
+     * Gera um apelido aleatório.
+     * O apelido é formado por duas letras maiúsculas aleatórias.
+     *
+     * @return Um apelido aleatório como uma String.
+     */
+    public static String gerarApelido() {
+        char letter1 = (char) ('A' + RANDOM.nextInt(26));
+        char letter2 = (char) ('A' + RANDOM.nextInt(26));
+        return " " + letter1 + letter2;
+    }
 
 }

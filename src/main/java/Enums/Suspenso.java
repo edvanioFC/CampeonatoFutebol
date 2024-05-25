@@ -1,22 +1,16 @@
 package Enums;
 
+/**
+ * Enum representando o estado de suspensão de um jogador.
+ */
 public enum Suspenso {
-    SIM("Sim", true),
-    NAO("Não", false);
+    /**
+     * Representa que a suspensão está ativa.
+     */
+    SIM,
 
-    private String descricao;
-    private boolean suspenso;
-
-    Suspenso(String descricao, boolean suspenso) {
-        this.descricao = descricao;
-        this.suspenso = suspenso;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public boolean isSuspenso() {
-        return suspenso;
-    }
+    /**
+     * Representa que a suspensão não está ativa.
+     */
+    NAO;
 }

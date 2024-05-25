@@ -1,23 +1,15 @@
 package Enums;
-
+/**
+ * Enum representando se um jogador treinou ou não.
+ */
 public enum Treinou {
-    SIM("Sim", true),
-    NAO("Nao", false);
+    /**
+     * @param SIM Representa que o jogador treinou.
+     */
+    SIM,
 
-    private String descricao;
-    private boolean treinou;
-
-    Treinou(String descricao, boolean treinou) {
-        this.descricao = descricao;
-        this.treinou = treinou;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public boolean isTreinou() {
-        return treinou;
-    }
+    /**
+     * @param NAO Representa que o jogador não treinou.
+     */
+    NAO;
 }
-

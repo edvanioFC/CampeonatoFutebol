@@ -1,32 +1,37 @@
 package Enums;
 
+/**
+ * Enum representando os tipos de cartões em um jogo de futebol.
+ */
 public enum Cartao {
-    AMARELO("Amarelo", 1),
-    VERMELHO("Vermelho", 2);
+    /**
+     * Representa um cartão amarelo.
+     */
+    AMARELO("Amarelo"),
 
+    /**
+     * Representa um cartão vermelho.
+     */
+    VERMELHO("Vermelho");
+
+    /**
+     * Descrição do cartão.
+     */
     private final String descricao;
-    private final int valor;
 
-    Cartao(String descricao, int valor) {
+    /**
+     * Construtor para o enum.
+     * @param descricao A descrição do cartão.
+     */
+    Cartao(String descricao) {
         this.descricao = descricao;
-        this.valor = valor;
     }
 
+    /**
+     * Getter para a descrição do cartão.
+     * @return A descrição do cartão.
+     */
     public String getDescricao() {
         return descricao;
-    }
-
-    public int getValor() {
-        return valor;
-    }
-
-    public Cartao getCartao(int valor) {
-        if (valor == 1) {
-            return AMARELO;
-        } else if (valor == 2) {
-            return VERMELHO;
-        } else {
-            return null;
-        }
     }
 }

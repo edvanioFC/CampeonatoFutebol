@@ -1,80 +1,137 @@
 package org.example;
+
+public class Main{
+    public static void main(String[] args) throws Exception {
+        Ig11Camp gestorCampeonato = new Ig11Camp();
+        Ig11Camp.instrucao();
+        while (Ig11Camp.isFlag()) {
+            Ig11Camp.menu();
+            Ig11Camp.opcoes();
+        }
+        gestorCampeonato.getScanner().close();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*package org.example;
 import Campeonato.*;
 import Enums.*;
 import utils.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.IntStream;
+
+import static utils.TextoUtil.centralizarTexto;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final ArrayList<Equipa> equipas = new ArrayList<>();
     private static final VerificaInput inputChecker = new VerificaInput();
-    private Random random;
+    private static Jogo jogo;
+    private static boolean flag = true;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args ) throws InterruptedException {
         instrucao();
-        while (true) {
+        while (flag) {
             menu();
-
-            int opcao = inputChecker.checkInt();
-            switch (opcao) {
-                case 1:
-                    criarEquipa();
-                    break;
-                case 2:
-                    if (equipas.isEmpty()) {
-                        centralizarTexto("Primeiro, crie pelo menos uma equipe.\n");
-                    } else {
-                        cadastrarJogador();
-                    }
-                    break;
-                case 3:
-                    padrao();
-                    break;
-                case 4:
-                    if (equipas.size() < 2) {
-                        centralizarTexto("Você precisa ter as equipas criadas para imprimir os planteis.\n");
-                    } else {
-                        imprimirPlanteis();
-                    }
-                    break;
-                case 5:
-                    if (equipas.size() < 2) {
-                        centralizarTexto("Você precisa ter as equipas criadas para imprimir os planteis.\n");
-                    } else {
-                        imprimirEscalacao();
-                    }
-                    break;
-                case 6:
-                    if (equipas.size() < 2) {
-                        centralizarTexto("É necessário ter pelo menos 2 equipes para simular um jogo.\n");
-                    } else {
-                        simularJogo();
-                    }
-                    break;
-                case 7:
-                    centralizarTexto("SAINDO");
-                    for (int i = 0; i < 3; i++) {
-                        for (int j = 0; j <i ; j++) {
-                            centralizarTexto(".");
-                            Thread.sleep(1000);
-                        }
-                    }
-                    centralizarTexto("Obrigado por usar o IG11CampGest!");
-                    return;
-                default:
-                    centralizarTexto("Opção inválida. Tente novamente.\n");
-            }
+            opcoes();
         }
     }
 
-    private static void centralizarTexto(String texto) {
-        int larguraTela = 155;  
-        int espacos = (larguraTela - texto.length()) / 2;
-        String espacoBranco = " ".repeat(Math.max(0, espacos));
-        System.out.println(espacoBranco + texto);
+    private static void opcoes() throws InterruptedException {
+        int opcao = inputChecker.checkInt();
+        switch (opcao) {
+            case 1:
+                criarEquipa();
+                break;
+            case 2:
+                if (equipas.isEmpty()) {
+                    centralizarTexto("Primeiro, crie pelo menos uma equipe.\n");
+                }else {
+                    cadastrarJogador();
+                }
+
+                break;
+            case 3:
+                padrao();
+                break;
+            case 4:
+                if (equipas.size() < 2) {
+                    centralizarTexto("Você precisa ter as equipas criadas para imprimir os planteis.\n");
+                }else{
+                    imprimirPlanteis();
+                }
+
+                break;
+            case 5:
+                if (equipas.size() < 2) {
+                    centralizarTexto("Você precisa ter as equipas criadas para imprimir os planteis.\n");
+                }else{
+                    imprimirEscalacao();
+                }
+
+                break;
+            case 6:
+                if (equipas.size() < 2){
+                    centralizarTexto("É necessário ter pelo menos 2 equipas para simular um jogo.\n");
+                }else{
+                    simularJogo();
+                }
+
+                break;
+            case 7:
+                if (equipas.size() < 2){
+                    centralizarTexto("Treinamento só depois do jogo.\n");
+                }else {
+                    permitirTreinamento();
+                }
+                break;
+            case 8:
+                if(equipas.size() < 2) {
+                    centralizarTexto("Precisamos ter equipas para aplicar cartão aos seus jogadores");
+                }else{
+                    aplicarCartao();
+                }
+                break;
+            case 9:
+                if(equipas.size() < 2) {
+                    centralizarTexto("Precisamos ter equipas para aplicar suspensão aos seus jogadores");
+                }else{ aplicarSuspensao();}
+                break;
+            case 10:
+                centralizarTexto("SAINDO");
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j <i ; j++) {
+                        centralizarTexto(".");
+                        Thread.sleep(1000);
+                    }
+                }
+                centralizarTexto("Obrigado por usar o IG11CampGest!");
+                flag = false;
+                break;
+            default:
+                centralizarTexto("Opção inválida. Tente novamente.\n");
+        }
     }
 
     private static void instrucao() {
@@ -101,14 +158,90 @@ public class Main {
         centralizarTexto("------------4. Imprimir Planteis-----------");
         centralizarTexto("------------5. Imprimir Convocados---------");
         centralizarTexto("------------6. Simular Jogo----------------");
-        centralizarTexto("------------7. Sair------------------------");
+        centralizarTexto("------------7. Permitir Treinamento--------");
+        centralizarTexto("------------8. Aplicar Cartão--------------");
+        centralizarTexto("------------9. aplicar Suspensão-----------");
+        centralizarTexto("------------10. Sair-----------------------");
         centralizarTexto("---------------Escolha uma opção_________: ");
-   }
+    }
+
+    private static void aplicarCartao(){
+        exibirEquipas();
+        int equipaEscolhida = getValideEquipa();
+        Equipa equipa = equipas.get(equipaEscolhida);
+        exibirJogadores(equipa);
+        int jogadorEscolhido = getValidJogador(equipa);
+        aplicarCartaoJogador(equipa, jogadorEscolhido);
+    }
+
+    private static void aplicarCartaoJogador(Equipa equipa, int jogadorIndex) {
+        Jogador jogador = equipa.getRelacionados().get(jogadorIndex);
+        jogador.aplicarCartao(Cartao.AMARELO, 1);
+        TextoUtil.centralizarTexto("Jogador " + jogador.getNome() + " recebeu um cartão amarelo");
+    }
+
+    private static void aplicarSuspensao(){
+        exibirEquipas();
+        int equipaEscolhida = getValideEquipa();
+        Equipa equipa = equipas.get(equipaEscolhida);
+        exibirJogadores(equipa);
+        int jogadorEscolhido = getValidJogador(equipa);
+        suspenderJogador(equipa, jogadorEscolhido);
+    }
+
+    private static void exibirEquipas(){
+        IntStream.range(0, equipas.size())
+                .forEach(i -> centralizarTexto((i + 1) + ". " + equipas.get(i).getNome()));
+    }
+
+    private static int getValideEquipa(){
+        int index = inputChecker.checkInt();
+        while(index < 0 || index > equipas.size()){
+            centralizarTexto("Equipa não encontrada. Tente novamente.");
+            index = inputChecker.checkInt();
+        }
+        return index;
+    }
+
+    private static void exibirJogadores(Equipa equipa) {
+        equipa.relacionarJogadores().stream()
+                .map(Jogador::exibirJogador)
+                .forEach(TextoUtil::centralizarTexto);
+    }
+
+    private static int getValidJogador(Equipa equipa) {
+        int index = inputChecker.checkInt() - 1;
+        while(index < 0 || index > equipa.getPlantel().size()){
+            centralizarTexto("Jogador não encontrado. Tente novamente.");
+            index = inputChecker.checkInt() - 1;
+        }
+
+        return index;
+    }
+
+    private static void suspenderJogador(Equipa equipa, int jogadorIndex) {
+        Jogador jogador = equipa.getRelacionados().get(jogadorIndex);
+        jogador.setSuspenso(Suspenso.SIM);
+        TextoUtil.centralizarTexto("Jogador " + jogador.getNome() + "foi suspenso");
+    }
+
+    private static void permitirTreinamento(){
+        if (jogo != null ){
+            jogo.permitirTreinamento();
+        }
+        else{
+            centralizarTexto("Simule um jogo e depois execute o treinamento");
+        }
+    }
 
     private static void criarEquipa() {
         centralizarTexto("Quantidade de Equipas que pretende criar: ");
         int quantidade = inputChecker.checkInt();
-        while (equipas.size() < 2) {
+        while (quantidade < 0 ) {
+            centralizarTexto("Quantidade não pode ser negativa");
+            quantidade = inputChecker.checkInt();
+        }
+        while (equipas.size() < quantidade) {
             centralizarTexto("Nome da Equipa: ");
             String nome = inputChecker.checkName();
 
@@ -253,14 +386,13 @@ public class Main {
 
         centralizarTexto("Convocações das Equipas:");
         for (Equipa equipa : equipas) equipa.imprimirEscalacao();
-        centralizarTexto("");
+        centralizarTexto(" \n \n");
     }
 
     private static void imprimirPlanteis(){
         centralizarTexto("Planteis das Equipas:");
         for (Equipa equipa: equipas) equipa.imprimirPlantel();
-        centralizarTexto("");
-
+        centralizarTexto(" \n \n \n");
     }
 
     private static void simularJogo() {
@@ -274,12 +406,11 @@ public class Main {
             centralizarTexto("Equipe não encontrada. Tente novamente.");
             mandanteIndex = inputChecker.checkInt() - 1;
         }
-        //scanner.nextLine();
 
         centralizarTexto("Escolha a equipe visitante:");
         for (int i = 0; i < equipas.size(); i++) {
             if (i != mandanteIndex) {
-                centralizarTexto(String.format("%d. %s", i + 1, equipas.get(i).getNome()));
+                centralizarTexto((i + 1) + " " + equipas.get(i).getNome());
             }
         }
 
@@ -299,7 +430,7 @@ public class Main {
 
         centralizarTexto("Data do Jogo (AAAA-MM-DD): ");
         LocalDate dataDoJogo = DataUtil.gerarDataAleatoria();
-        centralizarTexto("A data do jogo foi definida para a data atual" + dataDoJogo);
+        centralizarTexto("A data do jogo foi definida para: " + dataDoJogo);
 
         centralizarTexto("Estádio: ");
         String estadio = inputChecker.checkName();
@@ -307,13 +438,13 @@ public class Main {
         centralizarTexto("Cidade: ");
         String cidade = inputChecker.checkName();
 
-        Jogo jogo = new Jogo(mandante, visitante, dataDoJogo, estadio, cidade);
+        jogo = new Jogo(mandante, visitante, dataDoJogo, estadio, cidade);
 
-        centralizarTexto("Dados do Jogo:");
+        centralizarTexto("Dados do Jogo: ");
         String dados = jogo.toString();
         centralizarTexto(dados);
 
-        centralizarTexto("Jogo entre " + mandante.getNome() + " e " + visitante.getNome() + " foi iniciado!");
+        centralizarTexto("Jogo entre " + mandante.getNome() + "  E  " + visitante.getNome() + " foi iniciado!");
 
         jogo.gerarResultado();
         jogo.gerarCartoes();
@@ -322,3 +453,4 @@ public class Main {
         jogo.exibirResultado();
     }
 }
+*/

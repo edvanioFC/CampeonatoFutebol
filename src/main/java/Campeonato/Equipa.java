@@ -48,14 +48,14 @@ public class Equipa {
     }
 
     public void imprimirEscalacao(List<Jogador> titulares, List<Jogador> reservas) {
-        System.out.println("Escalação da equipe " + nome + " " + apelido);
-        System.out.println("Titulares:");
+        System.centralizarTexto("Escalação da equipe " + nome + " " + apelido);
+        System.centralizarTexto("Titulares:");
         titulares.forEach(jogador ->
-                System.out.println(jogador.getPosicao() + ": " + jogador.getNumero() + " - " + jogador.getNome() + " (" + jogador.getApelido() + ") - Qualidade: " + jogador.getQualidade())
+                System.centralizarTexto(jogador.getPosicao() + ": " + jogador.getNumero() + " - " + jogador.getNome() + " (" + jogador.getApelido() + ") - Qualidade: " + jogador.getQualidade())
         );
-        System.out.println("Reservas:");
+        System.centralizarTexto("Reservas:");
         reservas.forEach(jogador ->
-                System.out.println(jogador.getPosicao() + ": " + jogador.getNumero() + " - " + jogador.getNome() + " (" + jogador.getApelido() + ") - Qualidade: " + jogador.getQualidade())
+                System.centralizarTexto(jogador.getPosicao() + ": " + jogador.getNumero() + " - " + jogador.getNome() + " (" + jogador.getApelido() + ") - Qualidade: " + jogador.getQualidade())
         );
     }
 
@@ -104,6 +104,7 @@ import java.util.stream.Stream;
 import Enums.Posicao;
 
 import static java.lang.System.*;
+import static utils.TextoUtil.centralizarTexto;
 
 public class Equipa {
     private String nome;
@@ -183,9 +184,11 @@ public class Equipa {
     }
 
     public void imprimirPlantel(){
-        out.println("Plantel da equipe " + nome + "- ("+apelido+")");
+        centralizarTexto("-----------------------------------------------");
+        centralizarTexto("Plantel da equipe " + nome + "- ("+apelido+")");
+        centralizarTexto("-----------------------------------------------");
         plantel.forEach(jogador ->
-                out.println(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " (" + jogador.getApelido() + ") - " + jogador.getDataNascimento() + " - Condição: " + jogador.condicao(jogador) )
+                centralizarTexto(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " (" + jogador.getApelido() + ") - " + jogador.getDataNascimento() + " - Condição: " + jogador.condicao() )
         );
     }
 
@@ -193,14 +196,14 @@ public class Equipa {
         List<Jogador> titulares = relacionados.subList(0, 11);
         List<Jogador> reservas = relacionados.subList(11,18);
 
-        out.println("Escalação da equipe " + nome + "-("+apelido+")");
-        out.println("Titulares:");
+        centralizarTexto("Escalação da equipe " + nome + "-("+apelido+")");
+        centralizarTexto("Titulares:");
         titulares.forEach(jogador ->
-                out.println(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " " + jogador.getApelido() + "- Qualidade: " + jogador.getQualidade())
+                centralizarTexto(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " " + jogador.getApelido() + "- Qualidade: " + jogador.getQualidade())
         );
-        out.println("Reservas:");
+        centralizarTexto("Reservas:");
         reservas.forEach(jogador ->
-                out.println(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " " + jogador.getApelido() + " -Qualidade: " + jogador.getQualidade())
+                centralizarTexto(jogador.getPosicao() + " " + jogador.getNumero() + " " + jogador.getNome() + " " + jogador.getApelido() + " -Qualidade: " + jogador.getQualidade())
         );
     }
 

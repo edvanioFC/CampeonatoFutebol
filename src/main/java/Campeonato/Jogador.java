@@ -7,6 +7,9 @@ import Enums.Posicao;
 import Enums.Suspenso;
 import Enums.Treinou;
 
+import static java.lang.System.out;
+import static utils.TextoUtil.centralizarTexto;
+
 
 public class Jogador {
     private int id;
@@ -38,20 +41,21 @@ public class Jogador {
     }
 
     public void cadastrar() {
-        System.out.println(STR."Jogador cadastrado: \{nome} - \{apelido}");
+        centralizarTexto("Jogador cadastrado: " + nome + " (" + apelido + ")");
     }
 
-    public void exibirJogador() {
-        System.out.println(STR."Jogador: \{nome} - \{apelido}");
-        System.out.println(STR."Data de Nascimento: \{dataNascimento}");
-        System.out.println(STR."Número: \{numero}");
-        System.out.println(STR."Posição: \{posicao.getDescricao()}");
-        System.out.println(STR."Qualidade: \{qualidade}");
-        System.out.println(STR."Cartões Amarelos: \{cartoesAmarelos}");
-        System.out.println(STR."Cartões VermelHos: \{cartoesVermelhos}");
-        System.out.println(STR."Suspenso: \{suspenso.getDescricao()}");
-        System.out.println(STR."Treinou: \{treinou.getDescricao()}");
+    public String exibirJogador() {
+        return ( " Nome: " + nome + " - (" + apelido + ")" +
+        " Data de Nascimento: " + dataNascimento +
+        " Número: " + numero +
+        " Posição: " + posicao.getDescricao() +
+        " Qualidade: " + qualidade
+        );
     }
+
+//    " Suspenso: " + suspenso.getDescricao()+
+//    " Treinou: " + treinou.getDescricao()
+
     public boolean verificaCondicaoJogo() {
         return suspenso == Suspenso.NAO;
     }
@@ -84,6 +88,7 @@ public class Jogador {
         cartoesVermelhos = 0;
         cartoesAmarelos = 0;
         suspenso = Suspenso.NAO;
+        centralizarTexto("O jogador " + this.nome + " (" + this.apelido + ") cumpriu a suspensão.");
     }
 
     public void sofrerLesao() {
@@ -102,7 +107,7 @@ public class Jogador {
             }
             treinou = Treinou.SIM;
         } else {
-            System.out.println("Este jogador já treinou antes da partida.");
+            out.println("Este jogador já treinou antes da partida.");
         }
     }
 
@@ -126,9 +131,9 @@ public class Jogador {
         return valor;
     }
 
-    public String condicao(Jogador jogador){
-        if(jogador.getSuspenso() == Suspenso.SIM) return "Suspenso";
-        return "Tá Pra Jogo";
+    public String condicao(){
+        if(this.getSuspenso() == Suspenso.SIM) return "SUSPENSO";
+        return "TÁ PRA JOGO";
     }
 
     public int getId() {

@@ -13,8 +13,8 @@ public enum Posicao {
     ATACANTE_DIREITO("Atacante Direito", "AD"),
     CENTRO_AVANTE("Centro Avante", "CA");
 
-    private String descricao;
-    private String posicao;
+    private final String descricao;
+    private final String posicao;
 
     Posicao(String descricao, String posicao) {
         this.descricao = descricao;

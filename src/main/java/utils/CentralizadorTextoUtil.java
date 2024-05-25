@@ -2,7 +2,7 @@ package utils;
 
 import static java.lang.System.out;
 
-public class TextoUtil {
+public class CentraTextoUtil {
 
     public static void centralizarTexto(String texto) {
         int larguraTela = 155;

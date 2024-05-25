@@ -2,10 +2,10 @@ package utils;
 
 import java.util.Scanner;
 
-public class VerificaInput {
+public class VerificaInputUtil {
         private final Scanner scanner;
 
-        public VerificaInput() {
+        public VerificaInputUtil() {
             this.scanner = new Scanner(System.in);
         }
 

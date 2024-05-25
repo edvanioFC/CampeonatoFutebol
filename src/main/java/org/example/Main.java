@@ -9,7 +9,7 @@ public class Main{
             Ig11Camp.opcoes();
         }
         gestorCampeonato.getScanner().close();
-        System.out.println("");
+        System.out.println("\n");
     }
 }
 

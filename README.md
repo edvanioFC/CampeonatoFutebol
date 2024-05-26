@@ -18,17 +18,18 @@ O projeto é composto pelas seguintes classes:
 - `Treinou` : Representa o estado do jogador (Treinou antes do jogo ou não)
 
 # E algumas classes utils
-- `DataUtil`: Gerador de data
-- `GeradorNome`: Gera nome e apelidos aleatórios
+- `GeradorDataUtil`: Gerador de data
+- `GeradorNomeUtil`: Gera nome e apelidos aleatórios
 - `VerificaInput`: Valida o tipo de dados
+- `GeradorColorUtil`: Gera Cores 
 
 ## Como usar
 
-Para usar este projeto, você deve instanciar as classes `Jogador`, `Equipa` e `Jogo` e usar seus métodos para simular a gestão de um campeonato de futebol.
+Para usar este projeto, você deve ir pra `Main` e uxecutar o projecto uq vai fazer as devidas instancias das classes para simular a gestão de um campeonato de futebol.
 
 Por exemplo, você pode criar jogadores usando o construtor da classe `Jogador`, adicionar esses jogadores a uma equipe usando o métodos da classe `Equipa`, e então criar um jogo usando o construtor da classe `Jogo`.
 
-Depois de criar um jogo, você pode usar os métodos `gerarResultado()`, `gerarLesoes()`, `gerarCartoes()` e `permitirTreinamento()` para simular o resultado do jogo, gerar lesões e cartões, e permitir que os jogadores treinem, respectivamente.
+Depois de criar um jogo, você pode usar os métodos `gerarResultado()`, `gerarLesoes()`, `gerarCartoes()` e `permitirTreinamento()` para simular o resultado do jogo, gerar lesões e cartões, e permitir que os jogadores treinem, respectivamente entre outros.
 
 ## Contribuição
 
@@ -37,5 +38,6 @@ Contribuições para este projeto são bem-vindas. Se você encontrar um bug ou 
 ## Licença
 
 Este projeto é licenciado sob os termos da licença MIT. Leia  aqui <a href="https://github.com/edvanioFC/CampeonatoFutebol/blob/master/LICENSE" target="blanck">License</a>
+
 ## Documentation
-<a href="https://github.com/edvanioFC/CampeonatoFutebol/tree/master/doc" target=""> </a>
+<a href="https://github.com/edvanioFC/CampeonatoFutebol/tree/master/doc" target="white" >doc</a>

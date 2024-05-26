@@ -21,6 +21,7 @@ public enum Cartao {
 
     /**
      * Construtor para o enum.
+     *
      * @param descricao A descrição do cartão.
      */
     Cartao(String descricao) {

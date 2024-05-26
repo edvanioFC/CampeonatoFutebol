@@ -15,9 +15,9 @@ public class Equipa {
     private String nome;
     private String apelido;
     private int fundacao;
-    private final ArrayList<Jogador> plantel;
-    private ArrayList<Jogador> relacionados;
-    private final ArrayList<Jogador> jogadoresSuspensos;
+    ArrayList<Jogador> plantel;
+    ArrayList<Jogador> relacionados;
+    ArrayList<Jogador> jogadoresSuspensos;
 
     /**
      * Construtor padrão.

@@ -225,7 +225,7 @@ public class Jogo {
      * Exibe o resultado do jogo.
      * Exibe os eventos e o placar final do jogo.
      *
-     * @throws InterruptedException
+     * @throws InterruptedException se a thread for interrompida.
      */
     public void exibirResultado() throws InterruptedException {
         Thread.sleep(1000);

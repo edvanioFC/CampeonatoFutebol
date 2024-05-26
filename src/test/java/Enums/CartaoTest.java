@@ -1,26 +1,15 @@
 package Enums;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+public class CartaoTest {
 
-class CartaoTest {
 
-    @Test
-    void getDescricao() {
-    }
+    Cartao cartao = Cartao.AMARELO;
 
     @Test
-    void getValor() {
-    }
-
-    @Test
-    void getCartao() {
-    }
-
-    @Test
-    void values() {
-    }
-
-    @Test
-    void valueOf() {
+    public void testGetDescricao() {
+        String result = cartao.getDescricao();
+        Assertions.assertEquals("Amarelo", result);
     }
 }
